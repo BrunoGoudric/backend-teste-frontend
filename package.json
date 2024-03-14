@@ -1,0 +1,19 @@
+{
+  "name": "backend-teste-frontend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/BrunoGoudric/backend-teste-frontend.git",
+  "author": "Bruno Ferreira <brunolfsports@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.3",
+    "sequelize": "^6.37.1",
+    "sqlite3": "^5.1.7",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "nodemon": "^3.1.0"
+  }
+}
