@@ -1,0 +1,87 @@
+const User = require('../models/User');
+const database = require('../config/db');
+const { Op } = require('sequelize');
+
+module.exports = {
+    async get(req, res){
+        try {
+            await database.sync();
+
+            
+
+            const resultSearch = await User.findAll({
+                where: {
+                    status: {
+                        [Op.eq]: "Ativo"
+                    }
+                }
+            })
+
+
+            res.json(resultSearch)
+        } catch (error) {
+            res.status(500).json({message: 'Service Unavailable'});
+            console.log("Error=", error)
+        }
+    },
+    async post(req, res){
+        try {
+            await database.sync();
+
+            const keys = Object.keys(req.body);
+
+            for(key of keys){
+                if(req.body[key] == ''){
+                    return res.send('Please, fill all fields!')
+                }
+            }
+
+            const { 
+                fullname,
+                cpf,
+                rg,
+                dt_birthday,
+                email,
+                fone,
+                address,
+                sector,
+                position,
+                company,
+                userStatus
+             } = req.body;
+            
+            const resultSearch = await User.findAll({
+                where: {
+                    cpf: {
+                        [Op.eq]: cpf
+                    }
+                }
+            });
+
+            if(resultSearch.length > 0){
+                return res.send('User already exists!')
+            }
+
+            await User.create({
+                fullname: fullname,
+                cpf: cpf,
+                rg: rg,
+                dt_birthday: dt_birthday,
+                email: email,
+                fone: fone,
+                address: address,
+                sector: sector,
+                position: position,
+                company: company,
+                status: userStatus
+            })
+
+            return res.status(200).send('User create success!')
+
+        } catch (error) {
+            console.log("Error=", error)
+            return res.status(503).send('Service Unavailable');
+            
+        }   
+    }
+}
