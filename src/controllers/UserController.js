@@ -83,5 +83,29 @@ module.exports = {
             return res.status(503).send('Service Unavailable');
             
         }   
+    },
+    async getByCompany(req, res){
+        try {
+            await database.sync();
+
+            const { 
+               company
+             } = req.query;
+
+            const resultSearch = await User.findAll({
+                where: {
+                    [Op.and]: [
+                        {status: "Ativo"},
+                        {company: company}
+                    ]
+                }
+            })
+
+
+            res.json(resultSearch)
+        } catch (error) {
+            res.status(500).json({message: 'Service Unavailable'});
+            console.log("Error=", error)
+        }
     }
 }
