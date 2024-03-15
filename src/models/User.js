@@ -28,11 +28,11 @@ const User = database.define('users', {
     },
     email: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     fone: {
         type: Sequelize.NUMBER,
-        allowNull: false
+        allowNull: true
     },
     address:{
         type: Sequelize.STRING,
