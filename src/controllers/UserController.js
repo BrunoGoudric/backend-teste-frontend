@@ -9,13 +9,7 @@ module.exports = {
 
             
 
-            const resultSearch = await User.findAll({
-                where: {
-                    status: {
-                        [Op.eq]: "Ativo"
-                    }
-                }
-            })
+            const resultSearch = await User.findAll()
 
 
             res.json(resultSearch)
@@ -27,14 +21,6 @@ module.exports = {
     async post(req, res){
         try {
             await database.sync();
-
-            const keys = Object.keys(req.body);
-
-            for(key of keys){
-                if(req.body[key] == ''){
-                    return res.send('Please, fill all fields!')
-                }
-            }
 
             const { 
                 fullname,
@@ -67,8 +53,8 @@ module.exports = {
                 cpf: cpf,
                 rg: rg,
                 dt_birthday: dt_birthday,
-                email: email,
-                fone: fone,
+                email: email ,
+                fone: fone || "",
                 address: address,
                 sector: sector,
                 position: position,
@@ -98,6 +84,28 @@ module.exports = {
                         {status: "Ativo"},
                         {company: company}
                     ]
+                }
+            })
+
+
+            res.json(resultSearch)
+        } catch (error) {
+            res.status(500).json({message: 'Service Unavailable'});
+            console.log("Error=", error)
+        }
+    },
+    async postByUser(req, res){
+        try {
+            await database.sync();
+
+            const { 
+               id,
+               status
+             } = req.body;
+
+            const resultSearch = await User.update({status: status}, {
+                where: {
+                    id: id                    
                 }
             })
 
