@@ -115,5 +115,52 @@ module.exports = {
             res.status(500).json({message: 'Service Unavailable'});
             console.log("Error=", error)
         }
+    },
+    async postUpdateUser(req, res){
+        try {
+            await database.sync();
+
+            const { 
+                id,
+                fullname,
+                cpf,
+                rg,
+                dt_birthday,
+                email,
+                fone,
+                address,
+                sector,
+                position,
+                company,
+                userStatus
+             } = req.body;
+            
+            const resultSearch = await User.update({
+                fullname: fullname,
+                cpf: cpf,
+                rg: rg,
+                dt_birthday: dt_birthday,
+                email: email || "",
+                fone: fone || "",
+                address: address,
+                sector: sector,
+                position: position,
+                company: company,
+                status: userStatus
+            },{
+                where: {
+                    id: id                    
+                }
+            });
+
+            
+
+            return res.status(200).json(resultSearch)
+
+        } catch (error) {
+            console.log("Error=", error)
+            return res.status(503).send('Service Unavailable');
+            
+        }
     }
 }
